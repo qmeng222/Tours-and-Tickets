@@ -1,0 +1,22 @@
+{
+  "name": "tours-and-tickets",
+  "version": "1.0.0",
+  "description": "Learning Node, Express, and MongoDB",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qmeng222/Tours-and-Tickets.git"
+  },
+  "author": "Qingying Meng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qmeng222/Tours-and-Tickets/issues"
+  },
+  "homepage": "https://github.com/qmeng222/Tours-and-Tickets#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
