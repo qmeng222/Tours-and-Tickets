@@ -43,12 +43,34 @@ app.post('/api/v1/tours', (req, res) => {
   );
 });
 
-// GET:
+// GET all:
 app.get('/api/v1/tours', (req, res) => {
   res.status(200).json({
     status: 'success',
     results: tours.length,
     data: { tours: tours },
+  });
+});
+
+// GET a specific:
+app.get('/api/v1/tours/:id', (req, res) => {
+  // console.log(req.params);
+  // // 👆get {id: '5', x: '23', y: undefined} for '/api/v1/tours/:id/:x:y?'
+
+  const id = req.params.id * 1; // str --> num
+  const tour = tours.find((el) => el.id === id);
+
+  // if (id > tours.length) {
+  if (!tour) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'invalid id',
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { tours: tour },
   });
 });
 

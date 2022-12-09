@@ -6,9 +6,9 @@ A real-world RESTful API and web app with authentication, security, and payments
 
 ### Tech stack:
 
-- JavaScript
 - html
 - css
+- JavaScript
 - Node.js (as the dynamic web server)
 - Express.js
 
@@ -19,4 +19,3 @@ A real-world RESTful API and web app with authentication, security, and payments
 - repo: https://github.com/qmeng222/Farm-Fresh-to-You.git
 - set up a new npm package: $ npm init
 - install Express at version 4 (install the latest version inside of 4): $ npm i express@4
--
