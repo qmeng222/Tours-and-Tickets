@@ -1,9 +1,19 @@
 const fs = require('fs');
 const express = require('express');
-
 const app = express();
-// use the middleware: the data from the body is added to the request object:
-app.use(express.json());
+
+// middlewares:
+app.use(express.json()); // data from the body is added to the request object
+
+app.use((req, res, next) => {
+  console.log('Hello from the middleware👋');
+  next(); // at the end of each middleware function, a next function is called
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
@@ -32,8 +42,10 @@ const createTour = (req, res) => {
 };
 
 const getAllTours = (req, res) => {
+  console.log(req.requestTime);
   res.status(200).json({
     status: 'success',
+    requestedAt: req.requestTime,
     results: tours.length,
     data: { tours: tours },
   });
@@ -88,8 +100,9 @@ const deleteTour = (req, res) => {
   });
 };
 
-// routes | group the routes for changing the version or resource name:
+// routers | group the routers for convenience of changing the version or resource name:
 app.route('/api/v1/tours').post(createTour).get(getAllTours);
+
 app
   .route('/api/v1/tours/:id')
   .get(getTour)
