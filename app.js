@@ -24,6 +24,7 @@ const tours = JSON.parse(
 );
 
 // 3. route handlers / controllers:
+// 3.1 controllers - tours:
 const createTour = (req, res) => {
   // console.log(req.body);
   const newId = tours[tours.length - 1].id + 1;
@@ -104,6 +105,7 @@ const deleteTour = (req, res) => {
   });
 };
 
+// 3.2 controllers - users:
 const createUser = (req, res) => {
   // 500 means internal server error:
   res.status(500).json({
@@ -145,21 +147,21 @@ const deleteUser = (req, res) => {
 };
 
 // 4. routes | group the routes for convenience of changing the version or resource name:
-app.route('/api/v1/tours').post(createTour).get(getAllTours);
+// creates new router objects:
+const tourRouter = express.Router();
+const userRouter = express.Router();
 
-app
-  .route('/api/v1/tours/:id')
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
+// mount routers on routes:
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
-app.route('/api/v1/users').post(createUser).get(getAllUsers);
+// 4.1 routes - tours:
+tourRouter.route('/').post(createTour).get(getAllTours);
+tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
-app
-  .route('/api/v1/users/:id')
-  .get(getUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+// 4.2 routes - users:
+userRouter.route('/').post(createUser).get(getAllUsers);
+userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 // 5. start server:
 const port = 3000;
