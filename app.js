@@ -1,9 +1,13 @@
+// 1. include modules (require):
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 
-// middlewares:
+// 2. middlewares:
 app.use(express.json()); // data from the body is added to the request object
+app.use(morgan('dev'));
 
 app.use((req, res, next) => {
   console.log('Hello from the middleware👋');
@@ -19,7 +23,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-// route handlers:
+// 3. route handlers:
 const createTour = (req, res) => {
   // console.log(req.body);
   const newId = tours[tours.length - 1].id + 1;
@@ -100,7 +104,7 @@ const deleteTour = (req, res) => {
   });
 };
 
-// routers | group the routers for convenience of changing the version or resource name:
+// 4. routes | group the routes for convenience of changing the version or resource name:
 app.route('/api/v1/tours').post(createTour).get(getAllTours);
 
 app
@@ -109,6 +113,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+// 5. start server:
 const port = 3000;
 app.listen(port, () => {
   console.log('App is running on port ${port}...');
