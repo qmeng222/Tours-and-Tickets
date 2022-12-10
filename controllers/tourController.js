@@ -4,7 +4,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
-// handlers / controllers:
+// checkID middleware:
 exports.checkID = (req, res, next, val) => {
   console.log(`Tour id is ${val}.`);
   if (req.params.id * 1 > tours.length) {
@@ -16,6 +16,18 @@ exports.checkID = (req, res, next, val) => {
   next();
 };
 
+// checkBody middleware:
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name || !req.body.price) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'missing name or price or both in the body',
+    });
+  }
+  next();
+};
+
+// handlers / controllers:
 exports.createTour = (req, res) => {
   // console.log(req.body);
   const newId = tours[tours.length - 1].id + 1;
