@@ -5,10 +5,14 @@ const tourController = require('./../controllers/tourController');
 // creates new router object:
 const router = express.Router();
 
+// if there's no id in the route, this middleware will be ignored and move on to the following middleware:
+router.param('id', tourController.checkID);
+
 router
   .route('/')
   .post(tourController.createTour)
   .get(tourController.getAllTours);
+
 router
   .route('/:id')
   .get(tourController.getTour)

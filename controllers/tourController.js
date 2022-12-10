@@ -5,6 +5,17 @@ const tours = JSON.parse(
 );
 
 // handlers / controllers:
+exports.checkID = (req, res, next, val) => {
+  console.log(`Tour id is ${val}.`);
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'invalid id',
+    });
+  }
+  next();
+};
+
 exports.createTour = (req, res) => {
   // console.log(req.body);
   const newId = tours[tours.length - 1].id + 1;
@@ -42,14 +53,6 @@ exports.getTour = (req, res) => {
   const id = req.params.id * 1; // str --> num
   const tour = tours.find((el) => el.id === id);
 
-  // if (id > tours.length) {
-  if (!tour) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'invalid id',
-    });
-  }
-
   res.status(200).json({
     status: 'success',
     data: { tours: tour },
@@ -57,13 +60,6 @@ exports.getTour = (req, res) => {
 };
 
 exports.updateTour = (req, res) => {
-  if (req.params.id * 1 > tours.length) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'invalid id',
-    });
-  }
-
   res.status(200).json({
     status: 'success',
     data: { tour: '<udated tour here...>' },
@@ -71,13 +67,6 @@ exports.updateTour = (req, res) => {
 };
 
 exports.deleteTour = (req, res) => {
-  if (req.params.id * 1 > tours.length) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'invalid id',
-    });
-  }
-
   // show that the deleted resource now no longer exists, 204 means no content:
   res.status(204).json({
     status: 'success',
