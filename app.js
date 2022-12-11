@@ -8,7 +8,12 @@ const userRouter = require('./routes/userRoutes');
 const app = express();
 
 // middlewares (for all routes):
-app.use(morgan('dev'));
+
+// process.env is the global environment variables:
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev')); // req logger: GET /api/v1/tours 200 7.416 ms - 8681
+}
+
 app.use(express.json()); // data from the body is added to the request object
 app.use(express.static(`${__dirname}/public`)); // serving static files
 
