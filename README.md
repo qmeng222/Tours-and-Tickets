@@ -102,3 +102,7 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
    - Project: {name: 1}
 
 <br>
+
+### References:
+
+1. Mongoose queries: https://mongoosejs.com/docs/queries.html
