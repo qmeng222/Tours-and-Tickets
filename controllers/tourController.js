@@ -16,26 +16,40 @@ const Tour = require('../models/tourModel');
 //   next();
 // };
 
-// checkBody middleware:
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'missing name or price or both in the body',
-    });
-  }
-  next();
-};
+// // checkBody middleware:
+// exports.checkBody = (req, res, next) => {
+//   if (!req.body.name || !req.body.price) {
+//     return res.status(400).json({
+//       status: 'fail',
+//       message: 'missing name or price or both in the body',
+//     });
+//   }
+//   next();
+// };
 
 // handlers / controllers:
-exports.createTour = (req, res) => {
-  //  201 means created:
-  res.status(201).json({
-    status: 'success',
-    // data: {
-    //   tour: newTour,
-    // },
-  });
+exports.createTour = async (req, res) => {
+  try {
+    // const newTour = new Tour({});
+    // newTour.save();
+
+    const newTour = await Tour.create(req.body);
+
+    //  201 means created:
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour,
+      },
+    });
+  } catch (err) {
+    // 400 stands for bad request:
+    res.status(400).json({
+      status: 'fail',
+      message: 'invalid data sent',
+      // message: err,
+    });
+  }
 };
 
 exports.getAllTours = (req, res) => {

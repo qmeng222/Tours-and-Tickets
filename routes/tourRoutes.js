@@ -10,7 +10,8 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(tourController.checkBody, tourController.createTour) // checkBody first before creating tour
+  // .post(tourController.checkBody, tourController.createTour) // checkBody first before creating tour
+  .post(tourController.createTour)
   .get(tourController.getAllTours);
 
 router
