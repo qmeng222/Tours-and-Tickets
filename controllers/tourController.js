@@ -52,26 +52,46 @@ exports.createTour = async (req, res) => {
   }
 };
 
-exports.getAllTours = (req, res) => {
-  console.log(req.requestTime);
-  res.status(200).json({
-    status: 'success',
-    requestedAt: req.requestTime,
-    // results: tours.length,
-    // data: { tours: tours },
-  });
+exports.getAllTours = async (req, res) => {
+  try {
+    // console.log(req.requestTime);
+
+    // get all tours from the database:
+    const tours = await Tour.find();
+
+    res.status(200).json({
+      status: 'success',
+      // requestedAt: req.requestTime,
+      results: tours.length,
+      data: { tours: tours },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
 
-exports.getTour = (req, res) => {
-  console.log(req.params);
-  // // 👆get {id: '5', x: '23', y: undefined} for '/api/v1/tours/:id/:x:y?'
-  // const id = req.params.id * 1; // str --> num
-  // const tour = tours.find((el) => el.id === id);
+exports.getTour = async (req, res) => {
+  try {
+    // console.log(req.params);
+    // // 👆get {id: '5', x: '23', y: undefined} for '/api/v1/tours/:id/:x:y?'
+    // const id = req.params.id * 1; // str --> num
+    // const tour = tours.find((el) => el.id === id);
+    // const tour = await Tour.findOne({_id: req.params.id});
+    const tour = await Tour.findById(req.params.id);
 
-  // res.status(200).json({
-  //   status: 'success',
-  //   data: { tours: tour },
-  // });
+    res.status(200).json({
+      status: 'success',
+      data: { tours: tour },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
 
 exports.updateTour = (req, res) => {
