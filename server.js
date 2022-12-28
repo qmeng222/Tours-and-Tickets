@@ -13,12 +13,33 @@ const DB = process.env.DATABASE.replace(
 mongoose
   // .connect(process.env.DATABASE_LOCAL, {
   .connect(DB, {
+    // deprecation warnings:
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
   .then(() => console.log('DB connection is successful!'));
+
+// create schema:
+const tourSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'A tour must have a name'],
+    unique: true,
+  },
+  rating: {
+    type: Number,
+    default: 4.5,
+  },
+  price: {
+    type: Number,
+    required: [true, 'A tour must have a price'],
+  },
+});
+
+// create a model:
+const Tour = mongoose.model('Tour', tourSchema);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
