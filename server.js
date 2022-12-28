@@ -21,41 +21,21 @@ mongoose
   })
   .then(() => console.log('DB connection is successful!'));
 
-// create schema:
-const tourSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A tour must have a name'],
-    unique: true,
-  },
-  rating: {
-    type: Number,
-    default: 4.5,
-  },
-  price: {
-    type: Number,
-    required: [true, 'A tour must have a price'],
-  },
-});
+// // create a new document out of the Tour model:
+// const testTour = new Tour({
+//   name: 'The Park Camper',
+//   price: 197,
+// });
 
-// create a model:
-const Tour = mongoose.model('Tour', tourSchema);
-
-// create a new document out of the Tour model:
-const testTour = new Tour({
-  name: 'The Park Camper',
-  price: 197,
-});
-
-// save this document to the tours collection in the database:
-testTour
-  .save()
-  .then((doc) => {
-    console.log(doc);
-  })
-  .catch((err) => {
-    console.log('Error💥:', err);
-  });
+// // save this document to the tours collection in the database:
+// testTour
+//   .save()
+//   .then((doc) => {
+//     console.log(doc);
+//   })
+//   .catch((err) => {
+//     console.log('Error💥:', err);
+//   });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
