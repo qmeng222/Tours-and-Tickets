@@ -84,7 +84,7 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 
 <br>
 
-### MongoDB Compass - interact with data
+### MongoDB Compass - interact with data:
 
 1. Insert documents to a collection:
    To insert multiple documents, enter a comma-separated array of JSON documents.
@@ -100,6 +100,16 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 2. Set query filter:
    - Filter: {price: {$lt: 550}}
    - Project: {name: 1}
+
+<br>
+
+### Postman:
+
+- query filters:
+  - http://127.0.0.1:3000/api/v1/tours?&duration=5&difficulty=easy
+  - http://127.0.0.1:3000/api/v1/tours?&duration[gte]=5&difficulty=easy
+  - http://127.0.0.1:3000/api/v1/tours?&duration[gte]=5&difficulty=easy&price[lt]=1500
+  - ...
 
 <br>
 

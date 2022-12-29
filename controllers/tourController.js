@@ -53,14 +53,6 @@ exports.createTour = async (req, res) => {
 
 exports.getAllTours = async (req, res) => {
   try {
-    // make a deep copty so that there is no reflection on the original object when the changes are made in the copied object:
-    const queryObj = { ...req.query };
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    excludedFields.forEach((el) => delete queryObj[el]);
-
-    console.log('👉', req.query, queryObj);
-    // { difficulty: 'easy', page: '2', sort: '1', limit: '10' } { difficulty: 'easy' }
-
     // console.log(req.requestTime);
 
     // // method 1 - get/filter selected tours from the database:
@@ -76,9 +68,25 @@ exports.getAllTours = async (req, res) => {
     //   .where('difficulty')
     //   .equals('easy');
 
-    // method 3 - build a query & execute a query:
-    const query = Tour.find(queryObj); // build
-    const tours = await query; // execute
+    // method 3 - build query & execute query:
+    // make a deep copty so that there is no reflection on the original object when the changes are made in the copied object:
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+    // console.log('👉', req.query, queryObj);
+    // { difficulty: 'easy', page: '2', sort: '1', limit: '10' } { difficulty: 'easy' }
+
+    // console.log(req.query);
+    // // // GOT:    { duration: { gte: '5' }, difficulty: 'easy' }
+    // // // WANTED: { duration: { $gte: '5' }, difficulty: 'easy' }
+
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
+    const wanted = JSON.parse(queryStr);
+    // console.log(wanted); // { duration: { $gte: '5' }, difficulty: 'easy' }
+
+    const query = Tour.find(wanted);
+    const tours = await query;
 
     // send response:
     res.status(200).json({
