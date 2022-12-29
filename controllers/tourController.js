@@ -53,11 +53,34 @@ exports.createTour = async (req, res) => {
 
 exports.getAllTours = async (req, res) => {
   try {
+    // make a deep copty so that there is no reflection on the original object when the changes are made in the copied object:
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    console.log('👉', req.query, queryObj);
+    // { difficulty: 'easy', page: '2', sort: '1', limit: '10' } { difficulty: 'easy' }
+
     // console.log(req.requestTime);
 
-    // get all tours from the database:
-    const tours = await Tour.find();
+    // // method 1 - get/filter selected tours from the database:
+    // const tours = await Tour.find({
+    //   duration: 5,
+    //   difficulty: 'easy',
+    // });
 
+    // // method 2 - filter using Mongoose methods:
+    // const tours = await Tour.find()
+    //   .where('duration')
+    //   .equals(5)
+    //   .where('difficulty')
+    //   .equals('easy');
+
+    // method 3 - build a query & execute a query:
+    const query = Tour.find(queryObj); // build
+    const tours = await query; // execute
+
+    // send response:
     res.status(200).json({
       status: 'success',
       // requestedAt: req.requestTime,
