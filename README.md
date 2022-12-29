@@ -44,6 +44,12 @@ A real-world RESTful API and web app with authentication, security, and payments
   - now package.json > dependencies is updated with "mongoose": "^5.13.15"
   - or simply find the version by: npm list mongoose
 - run $ npm start
+- import developemnt data:
+  ```
+  node dev-data/data/import-dev-data.js --delete
+  node dev-data/data/import-dev-data.js --import
+  ```
+  - run $ npm start
 
 <br>
 

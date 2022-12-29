@@ -77,15 +77,26 @@ exports.getAllTours = async (req, res) => {
     // { difficulty: 'easy', page: '2', sort: '1', limit: '10' } { difficulty: 'easy' }
 
     // console.log(req.query);
-    // // // GOT:    { duration: { gte: '5' }, difficulty: 'easy' }
-    // // // WANTED: { duration: { $gte: '5' }, difficulty: 'easy' }
+    // // GOT:    { duration: { gte: '5' }, difficulty: 'easy' }
+    // // WANTED: { duration: { $gte: '5' }, difficulty: 'easy' }
 
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
     const wanted = JSON.parse(queryStr);
     // console.log(wanted); // { duration: { $gte: '5' }, difficulty: 'easy' }
-
     const query = Tour.find(wanted);
+
+    // sorting:
+    // console.log(req.query); // examples: { sort: 'price' } or  { sort: '-price, ratingsAverage' }
+    const criteria = req.query.sort; // eg: 'price' or '-price, ratingsAverage'
+    if (criteria) {
+      const sortBy = criteria.split(', ').join(' '); // ['-price', 'ratingsAverage'] --> '-price ratingsAverage'
+      query.sort(sortBy); // eg: query.sort('-price ratingsAverage'); same as query = query.sort(sortBy)
+    } else {
+      query.sort('-createdAt');
+    }
+
+    // execute query:
     const tours = await query;
 
     // send response:
