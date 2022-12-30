@@ -27,7 +27,17 @@ const Tour = require('../models/tourModel');
 //   next();
 // };
 
-// handlers / controllers:
+// alias middleware:
+exports.aliasTopTours = (req, res, next) => {
+  // prefilling the query string for the user, so that the user doesn't have to do it on his own:
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,-ratingsQuantity';
+  req.query.fields =
+    'name,price,ratingsAverage,ratingsQuantity,summary,difficulty';
+  next();
+};
+
+// handlers/controllers:
 exports.createTour = async (req, res) => {
   try {
     // const newTour = new Tour({});
@@ -95,7 +105,7 @@ exports.getAllTours = async (req, res) => {
       const sortBy = criteria.split(',').join(' '); // ['-price', 'ratingsAverage'] --> '-price ratingsAverage'
       query.sort(sortBy); // eg: query.sort('-price ratingsAverage'); same as query = query.sort(sortBy)
     } else {
-      query.sort('_id');
+      query.sort('-ratingsAverage');
     }
 
     // FIELD LIMITING (for examople, Get All Tours: http://127.0.0.1:3000/api/v1/tours?fields=name,duration,difficulty,price):

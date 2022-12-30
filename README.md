@@ -118,6 +118,7 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 - field limiting: http://127.0.0.1:3000/api/v1/tours?fields=name,duration,difficulty,price --> include
   or http://127.0.0.1:3000/api/v1/tours?fields=-duration,-difficulty --> exclude
 - pagination: http://127.0.0.1:3000/api/v1/tours?page=2&limit=3
+- http://127.0.0.1:3000/api/v1/tours?limit=5&sort=-ratingsAverage,price
 - ...
 
 <br>
