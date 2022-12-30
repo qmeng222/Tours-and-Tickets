@@ -55,6 +55,7 @@ exports.getAllTours = async (req, res) => {
   try {
     // console.log(req.requestTime);
 
+    // // FILTERING:
     // // method 1 - get/filter selected tours from the database:
     // const tours = await Tour.find({
     //   duration: 5,
@@ -80,29 +81,43 @@ exports.getAllTours = async (req, res) => {
     // // GOT:    { duration: { gte: '5' }, difficulty: 'easy' }
     // // WANTED: { duration: { $gte: '5' }, difficulty: 'easy' }
 
+    // ADVANCED FILTERING:
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
     const wanted = JSON.parse(queryStr);
     // console.log(wanted); // { duration: { $gte: '5' }, difficulty: 'easy' }
     const query = Tour.find(wanted);
 
-    // sorting (for examople, Get All Tours: http://127.0.0.1:3000/api/v1/tours?sort=-price,ratingsAverage):
+    // SORTING (for examople, Get All Tours: http://127.0.0.1:3000/api/v1/tours?sort=-price,ratingsAverage):
     // console.log(req.query); // examples: { sort: 'price' } or  { sort: '-price, ratingsAverage' }
     const criteria = req.query.sort; // eg: 'price' or '-price, ratingsAverage'
     if (criteria) {
       const sortBy = criteria.split(',').join(' '); // ['-price', 'ratingsAverage'] --> '-price ratingsAverage'
       query.sort(sortBy); // eg: query.sort('-price ratingsAverage'); same as query = query.sort(sortBy)
     } else {
-      query.sort('-createdAt');
+      query.sort('_id');
     }
 
-    // field limiting (for examople, Get All Tours: http://127.0.0.1:3000/api/v1/tours?fields=name,duration,difficulty,price):
+    // FIELD LIMITING (for examople, Get All Tours: http://127.0.0.1:3000/api/v1/tours?fields=name,duration,difficulty,price):
     // console.log(req.query); // { fields: 'name,duration,difficulty,price' }
     if (req.query.fields) {
       const fields = req.query.fields.split(',').join(' ');
       query.select(fields);
     } else {
       query.select('-__v'); // '-' means excludes, a.k.a only includes the other fields in the response
+    }
+
+    // PAGINATION:
+    const page = req.query.page * 1 || 1; // str --> num
+    const limit = req.query.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+    query.skip(skip).limit(limit);
+
+    // in case user selects a page that does not exist:
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (skip >= numTours) throw new Error('⚠️ This page does not exist');
+      // 👆 throw an error in the try black will immediately jump to the catch error block
     }
 
     // execute query:
