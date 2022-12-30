@@ -111,10 +111,13 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 
 ### Postman:
 
-- query filters:
-  - http://127.0.0.1:3000/api/v1/tours?&duration=5&difficulty=easy
-  - http://127.0.0.1:3000/api/v1/tours?&duration[gte]=5&difficulty=easy
-  - http://127.0.0.1:3000/api/v1/tours?&duration[gte]=5&difficulty=easy&price[lt]=1500
+- queries:
+  - filtering: http://127.0.0.1:3000/api/v1/tours?&duration=5&difficulty=easy
+  - filtering: http://127.0.0.1:3000/api/v1/tours?&duration[gte]=5&difficulty=easy
+  - advanced filtering: http://127.0.0.1:3000/api/v1/tours?&duration[gte]=5&difficulty=easy&price[lt]=1500
+  - sorting: http://127.0.0.1:3000/api/v1/tours?sort=-price,ratingsAverage (price: des, ratingsAverage: asc)
+  - field limiting: http://127.0.0.1:3000/api/v1/tours?fields=name,duration,difficulty,price --> include
+    or http://127.0.0.1:3000/api/v1/tours?fields=-duration,-difficulty --> exclude
   - ...
 
 <br>
