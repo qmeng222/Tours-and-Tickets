@@ -112,7 +112,7 @@ exports.getTour = async (req, res) => {
 exports.updateTour = async (req, res) => {
   try {
     const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-      // new: bool - true to return the modified document rather than the original, defaults to false:
+      // new: bool - true to return the modified document rather than the original; defaults to false:
       new: true,
       // runValidators: bool - if true, runs update validators on this command. Update validators validate the update operation against the model's schema:
       runValidators: true,
@@ -139,6 +139,40 @@ exports.deleteTour = async (req, res) => {
       status: 'success',
       // it is a common practice not to send back any data to the client when there was a delete operation:
       data: null,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
+
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      { $match: { ratingsAverage: { $gte: 4.5 } } },
+      {
+        $group: {
+          // _id: null,
+          _id: { $toUpper: '$difficulty' },
+          // _id: '$ratingsAverage',
+          numTours: { $sum: 1 },
+          avgRating: { $avg: '$ratingsAverage' },
+          numRatings: { $sum: '$ratingsQuantity' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+        },
+      },
+      {
+        $sort: { avgPrice: 1 }, // 1 for ascending
+      },
+      // { $match: { _id: { $ne: 'EASY' } } }, // _id was set as difficulty; ne --> not equal
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: { stats },
     });
   } catch (err) {
     res.status(404).json({

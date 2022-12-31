@@ -14,6 +14,8 @@ router
   .route('/top-rated')
   .get(tourController.aliasTopTours, tourController.getAllTours);
 
+router.route('/tour-stats').get(tourController.getTourStats);
+
 router
   .route('/')
   // .post(tourController.checkBody, tourController.createTour) // checkBody first before creating tour
