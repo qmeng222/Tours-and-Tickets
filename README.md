@@ -50,6 +50,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   node dev-data/data/import-dev-data.js --import
   ```
   - run $ npm start
+  - install the Slugify package: npm i slugify
 
 <br>
 
