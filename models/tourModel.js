@@ -6,26 +6,35 @@ const tourSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'A tour must have a name'],
+      required: [true, 'A tour must have a name.'],
       unique: true,
       trim: true,
+      maxlength: [50, 'A tour must have less or equal than 40 characters.'],
+      minlength: [10, 'A tour must have more or equal than 10 characters.'],
     },
     slug: String,
     duration: {
       type: Number,
-      required: [true, 'A tour must have a duration'],
+      required: [true, 'A tour must have a duration.'],
     },
     maxGroupSize: {
       type: Number,
-      required: [true, 'A tour must have a group size'],
+      required: [true, 'A tour must have a group size.'],
     },
     difficulty: {
       type: String,
-      required: [true, 'A tour must have a difficulty'],
+      required: [true, 'A tour must have a difficulty.'],
+      // the enum validator: check if the value given is in the array or not, if the value is not in the array, Mongoose will throw a ValidationError
+      enum: {
+        values: ['easy', 'medium', 'difficult'],
+        message: 'Difficulty is either easy, or medium, or difficult.',
+      },
     },
     ratingsAverage: {
       type: Number,
       default: 4.5,
+      min: [1, 'Rating must be above 1.'],
+      max: [5, 'Rating must be below 5.'],
     },
     ratingsQuantity: {
       type: Number,
@@ -33,13 +42,13 @@ const tourSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      required: [true, 'A tour must have a price'],
+      required: [true, 'A tour must have a price.'],
     },
     priceDiscount: Number,
     summary: {
       type: String,
       trim: true,
-      required: [true, 'A tour must have a summary'],
+      required: [true, 'A tour must have a summary.'],
     },
     description: {
       type: String,
@@ -47,7 +56,7 @@ const tourSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
-      required: [true, 'A tour must have a cover image'],
+      required: [true, 'A tour must have a cover image.'],
     },
     images: [String],
     createdAt: {
@@ -104,7 +113,7 @@ tourSchema.post(/^find/, function (docs, next) {
   next();
 });
 
-// pre aggregate middleware: exclude the secret tour in the aggregation
+// pre aggregate middleware: exclude the secret tours in the aggregation
 tourSchema.pre('aggregate', function (next) {
   // console.log(this.pipeline()); // in aggregate middleware, "this" object points to the current aggregation object
   // // [{'$match': {...}}, {'$group': {...}}, {'$sort': {...}}]
