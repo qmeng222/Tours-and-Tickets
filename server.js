@@ -1,3 +1,5 @@
+// server.js is the entry point
+
 // require modules:
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');

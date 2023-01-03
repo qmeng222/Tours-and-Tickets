@@ -52,6 +52,17 @@ A real-world RESTful API and web app with authentication, security, and payments
   - run $ npm start
   - install the Slugify package: npm i slugify
   - install validator.js: npm i validator --force
+  - (OPTIONAL) for debug only:
+    - add script to package.json:
+      ```
+      "scripts": {
+        "debug": "node --inspect server.js"
+      },
+      ```
+    - run Ctrl + C in terminal to terminate the process
+    - $ npm run debug
+    - go to chrome://inspect, and click "inspect" to acesss the debugge
+  - run $ npm start
 
 <br>
 

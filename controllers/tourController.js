@@ -1,5 +1,5 @@
 const Tour = require('../models/tourModel');
-const APIfeatures = require('../Utils/apiFeatures');
+const APIfeatures = require('../utils/apiFeatures');
 
 // const tours = JSON.parse(
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
