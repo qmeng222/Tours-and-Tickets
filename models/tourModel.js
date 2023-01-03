@@ -74,7 +74,7 @@ tourSchema.virtual('durationWeekds').get(function () {
 
 // pre document middleware: function execute before Mongoose .save() / .create() method
 tourSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
+  this.slug = slugify(this.name, { lower: true }); // in document middleware, "this" object points to the current document
   next();
 });
 
@@ -93,7 +93,7 @@ tourSchema.pre('save', function (next) {
 // for all the strings that start with the name 'find' ('find', 'findOne', 'findOneAndUpdate', 'findOneAndDelete' ...):
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } }); // bc the editors are not currently set to false
-  this.start = Date.now();
+  this.start = Date.now(); // in query middleware, this object points to the current query
   next();
 });
 
@@ -101,6 +101,14 @@ tourSchema.pre(/^find/, function (next) {
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
   // console.log(docs); // [...tours]
+  next();
+});
+
+// pre aggregate middleware: exclude the secret tour in the aggregation
+tourSchema.pre('aggregate', function (next) {
+  // console.log(this.pipeline()); // in aggregate middleware, "this" object points to the current aggregation object
+  // // [{'$match': {...}}, {'$group': {...}}, {'$sort': {...}}]
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
   next();
 });
 
