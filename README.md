@@ -51,6 +51,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   ```
   - run $ npm start
   - install the Slugify package: npm i slugify
+  - install validator.js: npm i validator --force
 
 <br>
 
@@ -128,3 +129,4 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 ### References:
 
 1. Mongoose queries: https://mongoosejs.com/docs/queries.html
+2. validator.js - a library of STRING validators and sanitizers: https://github.com/validatorjs/validator.js/
