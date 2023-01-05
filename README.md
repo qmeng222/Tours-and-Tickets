@@ -14,6 +14,12 @@ A real-world RESTful API and web app with authentication, security, and payments
 
 <br>
 
+### Project architecture:
+
+![architecture](/images/project-architecture.png)
+
+<br>
+
 ### Project setup:
 
 - repo: https://github.com/qmeng222/Farm-Fresh-to-You.git
