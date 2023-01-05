@@ -23,23 +23,17 @@ mongoose
   })
   .then(() => console.log('DB connection is successful!'));
 
-// // create a new document out of the Tour model:
-// const testTour = new Tour({
-//   name: 'The Park Camper',
-//   price: 197,
-// });
-
-// // save this document to the tours collection in the database:
-// testTour
-//   .save()
-//   .then((doc) => {
-//     console.log(doc);
-//   })
-//   .catch((err) => {
-//     console.log('Error💥:', err);
-//   });
-
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App is running on port ${port}...`);
+});
+
+// example error, wrong DATABASE_PASSWORD:
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNHANDLED REJECTION! 💥 Shutting down...'); // shut down application
+  // close the server (give the server some time to finish all all running or pending requests), and then run the callback function to immediately abort all running or pending requests:
+  server.close(() => {
+    process.exit(1); // 0 stands for a success, and 1 stands for uncaught exception
+  });
 });
