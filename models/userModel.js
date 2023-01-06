@@ -4,7 +4,7 @@ const validator = require('validator');
 // create schema:
 const userSchema = new mongoose.Schema({
   name: {
-    type: Sring,
+    type: String,
     required: [true, 'Please tell us your name.'],
   },
 
@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
   photo: String,
 
   password: {
+    // NOTE: in real web application, passwords should never ever be stored as plain in a database!!!
     type: String,
     required: [true, 'Please provide a password.'],
     minlength: 8,
