@@ -70,6 +70,7 @@ A real-world RESTful API and web app with authentication, security, and payments
     - go to chrome://inspect, and click "inspect" to acesss the debugge
   - run $ npm start
   - start a process in production mode: npm run start:prod
+  - install bcryptjs package: npm i bcryptjs --force
 
 <br>
 
