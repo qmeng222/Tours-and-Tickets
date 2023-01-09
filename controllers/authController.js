@@ -52,3 +52,26 @@ exports.login = catchAsync(async (req, res, next) => {
     token,
   });
 });
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1. get the token and check if it's there:
+  let token; // in ES6 variable declaratory, const and let are block scoped
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+  console.log(token);
+
+  if (!token) {
+    return next(new AppError('Please log in to get access.', 401));
+  }
+  // 2. verify the token:
+
+  // 3. check if user still exists
+
+  // 4. check if user changed password after the token was issued:
+
+  next();
+});

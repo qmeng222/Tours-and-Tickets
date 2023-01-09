@@ -18,13 +18,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json()); // data from the body is added to the request object
 app.use(express.static(`${__dirname}/public`)); // serving static files
 
-// app.use((req, res, next) => {
-//   console.log('Hello from the middleware👋');
-//   next(); // at the end of each middleware function, a next function is called
-// });
-
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  // console.log(req.headers);
   next();
 });
 

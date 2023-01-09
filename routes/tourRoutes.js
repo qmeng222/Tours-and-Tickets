@@ -1,6 +1,7 @@
 // import modules:
 const express = require('express');
 const tourController = require('../controllers/tourController');
+const authController = require('../controllers/authController');
 
 // creates new router object:
 const router = express.Router();
@@ -19,8 +20,7 @@ router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
 
 router
   .route('/')
-  // .post(tourController.checkBody, tourController.createTour) // checkBody first before creating tour
-  .get(tourController.getAllTours)
+  .get(authController.protect, tourController.getAllTours)
   .post(tourController.createTour);
 
 router
