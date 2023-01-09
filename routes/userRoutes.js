@@ -6,8 +6,11 @@ const authController = require('./../controllers/authController');
 // creates new router object:
 const router = express.Router();
 
+// app.METHOD(path, callback [, callback ...])
 // .post() method to handle POST requests:
-router.post('/signup', authController.signup); // app.METHOD(path, callback [, callback ...])
+router.post('/signup', authController.signup);
+// .post() method to send in the login credentials:
+router.post('/login', authController.login);
 
 router
   .route('/')
