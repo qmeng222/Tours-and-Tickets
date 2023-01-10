@@ -72,6 +72,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   - start a process in production mode: npm run start:prod
   - install bcryptjs package: npm i bcryptjs --legacy-peer-deps
   - install JSON web token package: npm i jsonwebtoken --legacy-peer-deps
+  - install Nodemailer: npm i nodemailer --legacy-peer-deps
 
 <br>
 
@@ -150,3 +151,4 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 
 1. Mongoose queries: https://mongoosejs.com/docs/queries.html
 2. validator.js - a library of STRING validators and sanitizers: https://github.com/validatorjs/validator.js/
+3. Mailtrap (email delivery platform): https://mailtrap.io/
