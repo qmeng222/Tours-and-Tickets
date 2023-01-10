@@ -64,6 +64,14 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// pre middleware:
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  // else:
+  this.passwordChangedAt = Date.now() - 1000; // 1s to make sure that the token is always created after the pw has been change
+  next();
+});
+
 // instance methods:
 userSchema.methods.correctPassword = async function (
   candidatePassword,

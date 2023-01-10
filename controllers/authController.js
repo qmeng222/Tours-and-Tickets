@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util'); // const util = require('util'); destructure that object and take promisify directly from there
 const sendEmail = require('../utils/email');
+const crypto = require('crypto');
 
 const signToken = (id) => {
   // tocken = payload + secret:
@@ -159,4 +160,35 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.resetPassword = (req, res, next) => {};
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  // 1. get user based on the token:
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token) // /resetPassword/:token
+    .digest('hex');
+
+  // find the user for the token:
+  const user = await User.findOne({
+    passwordResetToken: hashedToken, // token stored in DB is encrypted
+    passwordResetExpires: { $gt: Date.now() }, // check token has not expired
+  });
+
+  // 2. if user exist AND token has not expired, set the new pw:
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired.', 400));
+  }
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  // 3. update changedPasswordAt property for that user:
+
+  // 4. log the user in (send the JWT to the client):
+  const token = signToken(user._id);
+  res.status(200).json({
+    status: 'success',
+    token,
+  });
+});
