@@ -1,7 +1,8 @@
 const User = require('../models/userModel');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const jwt = require('jsonwebtoken');
-const AppError = require('../utils/appError');
+const { promisify } = require('util'); // const util = require('util'); destructure that object and take promisify directly from there
 
 const signToken = (id) => {
   // tocken = payload + secret:
@@ -11,13 +12,16 @@ const signToken = (id) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  // console.log('1️⃣', req.body);
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    passwordChangedAt: req.body.passwordChangedAt,
   });
 
+  // console.log('2️⃣', newUser);
   const token = signToken(newUser._id);
 
   // 201 (successfully createed):
@@ -62,16 +66,36 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
-  console.log(token);
-
+  // console.log(token);
   if (!token) {
     return next(new AppError('Please log in to get access.', 401));
   }
-  // 2. verify the token:
 
-  // 3. check if user still exists
+  // 2. verify the token (valid and unexpired):
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET); // the decoded payload from the JSON web token
+  // console.log(decoded); // { id: '63bb6a4abcdde573773ff530', iat: 1673226826, exp: 1681002826 }
+
+  // 3. check if user still exists (eg: user deleted after signing up):
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
+    return next(
+      new AppError(
+        'The user belonging to this token does no longer exist.',
+        401
+      )
+    );
+  }
 
   // 4. check if user changed password after the token was issued:
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError(
+        'User recently changed the password. Please log in again.',
+        401
+      )
+    );
+  }
 
-  next();
+  req.user = currentUser;
+  next(); // grant access to protected route
 });

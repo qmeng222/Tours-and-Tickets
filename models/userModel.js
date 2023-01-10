@@ -20,24 +20,25 @@ const userSchema = new mongoose.Schema({
   photo: String,
 
   password: {
-    // NOTE: in real web application, passwords should never ever be stored as plain in a database!!!
     type: String,
-    required: [true, 'Please provide a password.'],
+    required: [true, 'Please provide a password'],
     minlength: 8,
-    select: false, // automatically never show up
+    select: false,
   },
 
   passwordConfirm: {
     type: String,
-    required: [true, 'Please confirm your password.'],
+    required: [true, 'Please confirm your password'],
     validate: {
-      // only works on CREATE and SAVE:
+      // This only works on CREATE and SAVE!!!
       validator: function (el) {
         return el === this.password;
       },
       message: 'Passwords are not the same!',
     },
   },
+
+  passwordChangedAt: Date,
 });
 
 // pre document middleware: function execute before Mongoose .save() / .create() method
@@ -54,12 +55,25 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// instance method:
+// instance methods:
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    ); // ms --> s, 10: base 10 number
+
+    // console.log('✅', this.passwordChangedAt, JWTTimestamp);
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false; // false means pw not changed
 };
 
 // create model out of schema:
