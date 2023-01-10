@@ -11,6 +11,8 @@ const router = express.Router();
 router.post('/signup', authController.signup);
 // .post() method to send in the login credentials:
 router.post('/login', authController.login);
+router.post('/forgotPassword', authController.forgotPassword);
+router.post('/resetPassword', authController.resetPassword);
 
 router
   .route('/')

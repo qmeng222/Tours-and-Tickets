@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 // create schema:
 const userSchema = new mongoose.Schema({
@@ -45,6 +46,8 @@ const userSchema = new mongoose.Schema({
   },
 
   passwordChangedAt: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 });
 
 // pre document middleware: function execute before Mongoose .save() / .create() method
@@ -80,6 +83,23 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     return JWTTimestamp < changedTimestamp;
   }
   return false; // false means pw not changed
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  // original reset token:
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  // encrypted reset token:
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  // original rest token vs. encrypted reset token:
+  console.log({ resetToken }, this.passwordResetToken);
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 min --> ms
+  return resetToken;
 };
 
 // create model out of schema:
