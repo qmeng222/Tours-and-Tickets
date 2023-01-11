@@ -14,10 +14,17 @@ router.post('/login', authController.login);
 
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
+
 router.patch(
   '/updateMyPassword',
   authController.protect,
   authController.updatePassword
+);
+
+router.patch(
+  '/updateMyData',
+  authController.protect,
+  userController.updateMyData
 );
 
 router
