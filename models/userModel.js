@@ -48,6 +48,12 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+
+  active: {
+    type: Boolean,
+    default: true,
+    select: false, // do not show
+  },
 });
 
 // pre document middleware: function execute before Mongoose .save() / .create() method
@@ -69,6 +75,13 @@ userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
   // else:
   this.passwordChangedAt = Date.now() - 1000; // 1s to make sure that the token is always created after the pw has been change
+  next();
+});
+
+// do not show inactive account for findOne, findByIdAndUpdate, ...:
+userSchema.pre(/^find/, function (next) {
+  // this points to the current query:
+  this.find({ active: { $ne: false } });
   next();
 });
 

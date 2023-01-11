@@ -82,3 +82,14 @@ exports.updateMyData = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// for logged-in user only:
+exports.deleteMyAccount = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, { active: false });
+
+  // 204: no content
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
