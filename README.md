@@ -73,6 +73,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   - install bcryptjs package: npm i bcryptjs --legacy-peer-deps
   - install JSON web token package: npm i jsonwebtoken --legacy-peer-deps
   - install Nodemailer: npm i nodemailer --legacy-peer-deps
+  - install the rate-limiting middleware for Express: npm i express-rate-limit --legacy-peer-deps
 
 <br>
 
