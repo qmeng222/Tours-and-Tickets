@@ -9,12 +9,26 @@ const crypto = require('crypto');
 const signToken = (id) => {
   // tocken = payload + secret:
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_SECRET_EXPIRES_IN,
+    expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ), // d --> ms
+    // secure: true, // HTTPS
+    httpOnly: true, // cookie cannot be accessed or modified in any way by the browser (prevent XSS attacks)
+  };
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // HTTPS
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // remove pw from the output:
+  user.password = undefined;
 
   res.status(statusCode).json({
     status: 'success',
@@ -158,7 +172,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1. get user based on the token:
   const hashedToken = crypto
-    .createHash('sha256')
+    .createHash('sha256') // encrypt pw rest token
     .update(req.params.token) // /resetPassword/:token
     .digest('hex');
 

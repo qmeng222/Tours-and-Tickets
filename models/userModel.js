@@ -62,7 +62,8 @@ userSchema.pre('save', async function (next) {
   // if the password has not been modified, just exit this function and call the next middleware:
   if (!this.isModified('password')) return next();
 
-  // hash means encryption; 12 is the a cost parameter. The higher the cost is, the better the password will be encrypted:
+  // hash means encryption; 12 is the a cost parameter. The higher the cost is, the better the password will be encrypted.
+  // encrypt pw with salt and hash:
   this.password = await bcrypt.hash(this.password, 12);
 
   // after validation, delete the passwordConfirm. passwordConfirm is a required input, but not required to persist in databse:
@@ -112,7 +113,7 @@ userSchema.methods.createPasswordResetToken = function () {
 
   // encrypted reset token:
   this.passwordResetToken = crypto
-    .createHash('sha256')
+    .createHash('sha256') // encrypt pw rest token
     .update(resetToken)
     .digest('hex');
 
