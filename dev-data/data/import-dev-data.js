@@ -23,9 +23,7 @@ mongoose
   .then(() => console.log('DB connection is successful!'));
 
 // read the JSON file (NOTE: when receiving data from a web server, the data is always a string, and we have to convert text into a JavaScript object):
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
-);
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 
 // function to import data into database:
 const importData = async () => {
