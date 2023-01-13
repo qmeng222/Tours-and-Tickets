@@ -70,11 +70,13 @@ A real-world RESTful API and web app with authentication, security, and payments
     - go to chrome://inspect, and click "inspect" to acesss the debugge
   - run $ npm start
   - start a process in production mode: npm run start:prod
-  - install bcryptjs package: npm i bcryptjs --legacy-peer-deps
-  - install JSON web token package: npm i jsonwebtoken --legacy-peer-deps
-  - install Nodemailer: npm i nodemailer --legacy-peer-deps
-  - install the rate-limiting middleware for Express to prevent brute force attacks from the same IP: npm i express-rate-limit --legacy-peer-deps
-  - install Helmet to secure the Express app by setting various HTTP headers: npm i helmet --legacy-peer-deps
+  - install bcryptjs package: npm i bcryptjs
+  - install JSON web token package: npm i jsonwebtoken
+  - install Nodemailer: npm i nodemailer
+  - install the rate-limiting middleware for Express to prevent brute force attacks from the same IP: npm i express-rate-limit
+  - install Helmet to secure the Express app by setting various HTTP headers: npm i helmet
+  - install Express Mongoose Sanitize module: npm i express-mongo-sanitize
+  - install xss-clean module to sanitize user input coming from POST body, GET queries, and url params: npm i xss-clean
 
 <br>
 

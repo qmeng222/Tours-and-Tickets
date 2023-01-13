@@ -7,6 +7,8 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 const app = express();
 
@@ -30,6 +32,12 @@ app.use('/api', limiter); // apply to all routes that start with /api
 
 // body parser, reading data from body into req.body:
 app.use(express.json({ limit: '10kb' })); // data from the body is added to the request object
+
+// data sanitization against NoSQL query injection:
+app.use(mongoSanitize());
+
+// data sanitization against XSS:
+app.use(xss());
 
 // serving static files:
 app.use(express.static(`${__dirname}/public`)); // serving static files
