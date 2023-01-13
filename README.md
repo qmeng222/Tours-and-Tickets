@@ -91,6 +91,12 @@ brew services restart mongodb-community
 
 <br>
 
+### Data model:
+
+![data model](/images/data-model.png)
+
+<br>
+
 ### Database CRUD operations:
 
 - selected database: tours-test
