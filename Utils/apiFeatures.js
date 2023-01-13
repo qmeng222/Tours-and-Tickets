@@ -23,6 +23,7 @@ class APIfeatures {
   // sorting (eg, Get All Tours: http://127.0.0.1:3000/api/v1/tours?sort=-price,ratingsAverage (price: des, ratingsAverage: asc)):
   sort() {
     if (this.queryString.sort) {
+      // console.log(this.queryString.sort);
       const sortBy = this.queryString.sort.split(',').join(' '); // ['-price', 'ratingsAverage'] --> '-price ratingsAverage'
       this.query.sort(sortBy); // eg: query.sort('-price ratingsAverage'); same as query = query.sort(sortBy)
     } else {

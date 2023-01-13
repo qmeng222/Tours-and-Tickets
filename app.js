@@ -9,6 +9,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const app = express();
 
@@ -38,6 +39,21 @@ app.use(mongoSanitize());
 
 // data sanitization against XSS:
 app.use(xss());
+
+// prevent HTTP Parameter Pollution (HPP):
+// eg: GET {{URL}}api/v1/tours?sort=duration&sort=price -> {{URL}}api/v1/tours?sort=price
+app.use(
+  hpp({
+    whitelist: [
+      'duration', // eg: GET {{URL}}api/v1/tours?duration=5&duration=9 --> duration = 5 || 9
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  })
+);
 
 // serving static files:
 app.use(express.static(`${__dirname}/public`)); // serving static files
