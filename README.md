@@ -73,7 +73,8 @@ A real-world RESTful API and web app with authentication, security, and payments
   - install bcryptjs package: npm i bcryptjs --legacy-peer-deps
   - install JSON web token package: npm i jsonwebtoken --legacy-peer-deps
   - install Nodemailer: npm i nodemailer --legacy-peer-deps
-  - install the rate-limiting middleware for Express: npm i express-rate-limit --legacy-peer-deps
+  - install the rate-limiting middleware for Express to prevent brute force attacks from the same IP: npm i express-rate-limit --legacy-peer-deps
+  - install Helmet to secure the Express app by setting various HTTP headers: npm i helmet --legacy-peer-deps
 
 <br>
 
