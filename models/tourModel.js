@@ -119,6 +119,7 @@ const tourSchema = new mongoose.Schema(
       },
     ],
   },
+  // options: virtual properties (fields not stored in DB) also show up in Json and object outputs:
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
@@ -165,7 +166,7 @@ tourSchema.pre(/^find/, function (next) {
 tourSchema.pre(/^find/, function (next) {
   // in query middleware, this always points to the current query:
   this.populate({
-    path: 'guides', // populate the guides field with the referenced user
+    path: 'guides', // populate the guides field with the referenced guide(s)
     select: '-__v -passwordChangedAt', // fields don't show for each guide document
   });
   next();
