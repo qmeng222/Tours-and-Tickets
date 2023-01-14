@@ -115,7 +115,7 @@ const tourSchema = new mongoose.Schema(
     guides: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'User',
+        ref: 'User', // create realationship between datasets (tour, user)
       },
     ],
   },
@@ -159,6 +159,15 @@ tourSchema.pre('save', function (next) {
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } }); // bc the editors are not currently set to false
   this.start = Date.now(); // in query middleware, this object points to the current query
+  next();
+});
+
+tourSchema.pre(/^find/, function (next) {
+  // in query middleware, this always points to the current query:
+  this.populate({
+    path: 'guides', // populate the guides field with the referenced user
+    select: '-__v -passwordChangedAt', // fields don't show for each guide document
+  });
   next();
 });
 
