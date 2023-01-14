@@ -91,6 +91,12 @@ brew services restart mongodb-community
 
 <br>
 
+### MVC architecture:
+
+![MVC](/images/MVC.png)
+
+<br>
+
 ### Data model:
 
 ![data model](/images/data-model.png)
