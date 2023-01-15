@@ -42,17 +42,9 @@ exports.aliasTopTours = (req, res, next) => {
 };
 
 // handlers/controllers:
-exports.createTour = catchAsync(async (req, res, next) => {
-  const newTour = await Tour.create(req.body);
-
-  //  201 means created:
-  res.status(201).json({
-    status: 'success',
-    data: {
-      tour: newTour,
-    },
-  });
-});
+exports.createTour = factory.createOne(Tour);
+exports.updateTour = factory.updateOne(Tour);
+exports.deleteTour = factory.deleteOne(Tour);
 
 exports.getAllTours = catchAsync(async (req, res, next) => {
   // execute query & chain the methods:
@@ -90,39 +82,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
     data: { tour }, // { tour: tour }
   });
 });
-
-exports.updateTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-    // new: bool - true to return the modified document rather than the original; defaults to false:
-    new: true,
-    runValidators: true,
-  });
-
-  if (!tour) {
-    return next(new AppError('No tour was found with that ID.', 404)); // return immediately without moving on to the next line
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: { tour },
-  });
-});
-
-// exports.deleteTour = catchAsync(async (req, res, next) => {
-//   const tour = await Tour.findByIdAndDelete(req.params.id);
-
-//   if (!tour) {
-//     return next(new AppError('No tour was found with that ID.', 404)); // return immediately without moving on to the next line
-//   }
-
-//   // show that the deleted resource no longer exists, 204 means no content:
-//   res.status(204).json({
-//     status: 'success',
-//     // it is a common practice not to send back any data to the client when there was a delete operation:
-//     data: null,
-//   });
-// });
-exports.deleteTour = factory.deleteOne(Tour);
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
