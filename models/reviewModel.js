@@ -35,11 +35,17 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.pre(/^find/, function (next) {
+  // this.populate({
+  //   path: 'tour', // populate the tour field with the referenced tour
+  //   select: 'name', // only show tour name
+  // }).populate({
+  //   path: 'user', // populate the tour field with the referenced tour
+  //   select: 'name photo', // protect privacy, only show user name and photo
+  // });
+  // next();
+
   // in query middleware, this always points to the current query:
   this.populate({
-    path: 'tour', // populate the tour field with the referenced tour
-    select: 'name', // only show tour name
-  }).populate({
     path: 'user', // populate the tour field with the referenced tour
     select: 'name photo', // protect privacy, only show user name and photo
   });

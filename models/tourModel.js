@@ -119,16 +119,23 @@ const tourSchema = new mongoose.Schema(
       },
     ],
   },
+
   // options: virtual properties (fields not stored in DB) also show up in Json and object outputs:
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
-
 // duration days --> weeks:
 tourSchema.virtual('durationWeekds').get(function () {
   return this.duration / 7;
+});
+
+// virtual populate:
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour', // reviewSchema : tour field
+  localField: '_id', // review id
 });
 
 // DOCUMENT MIDDLEWARE:
