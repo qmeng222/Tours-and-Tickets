@@ -2,6 +2,11 @@ const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.createReview = catchAsync(async (req, res, next) => {
+  // if didn't specify the tour ID:
+  if (!req.body.tour) req.body.tour = req.params.tourId;
+  // if didn't specify the user:
+  if (!req.body.user) req.body.user = req.user.id;
+
   const newReview = await Review.create(req.body);
 
   // 201: created

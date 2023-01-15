@@ -2,6 +2,7 @@
 const express = require('express');
 const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authController');
+const reviewController = require('../controllers/reviewControlller');
 
 // creates new router object:
 const router = express.Router();
@@ -31,6 +32,16 @@ router
     authController.protect,
     authController.restrictTo('lead-guide', 'admin'),
     tourController.deleteTour
+  );
+
+// nested routes: eg, POST /tours/123456abcdef/reviews
+// NOTE: tourRouter was already mounted on tours
+router
+  .route('/:tourId/reviews')
+  .post(
+    authController.protect,
+    authController.restrictTo('user'),
+    reviewController.createReview
   );
 
 // assign the router obj to exports:
