@@ -1,7 +1,8 @@
 const Tour = require('../models/tourModel');
 const APIfeatures = require('../utils/apiFeatures');
-const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 // const tours = JSON.parse(
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
@@ -107,20 +108,21 @@ exports.updateTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndDelete(req.params.id);
+// exports.deleteTour = catchAsync(async (req, res, next) => {
+//   const tour = await Tour.findByIdAndDelete(req.params.id);
 
-  if (!tour) {
-    return next(new AppError('No tour was found with that ID.', 404)); // return immediately without moving on to the next line
-  }
+//   if (!tour) {
+//     return next(new AppError('No tour was found with that ID.', 404)); // return immediately without moving on to the next line
+//   }
 
-  // show that the deleted resource no longer exists, 204 means no content:
-  res.status(204).json({
-    status: 'success',
-    // it is a common practice not to send back any data to the client when there was a delete operation:
-    data: null,
-  });
-});
+//   // show that the deleted resource no longer exists, 204 means no content:
+//   res.status(204).json({
+//     status: 'success',
+//     // it is a common practice not to send back any data to the client when there was a delete operation:
+//     data: null,
+//   });
+// });
+exports.deleteTour = factory.deleteOne(Tour);
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([

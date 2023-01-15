@@ -1,4 +1,4 @@
-// let all AppError objects inherit from the built-in error:
+// let all AppError objects inherit from the built-in Error:
 class AppError extends Error {
   constructor(message, statusCode) {
     super(message); // call the parent class

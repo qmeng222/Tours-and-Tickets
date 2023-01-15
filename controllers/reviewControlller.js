@@ -1,5 +1,6 @@
 const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
+const factory = require('./handlerFactory');
 
 exports.createReview = catchAsync(async (req, res, next) => {
   // if didn't specify the tour ID:
@@ -28,3 +29,5 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
     data: { reviews }, // {reviews: reviews}
   });
 });
+
+exports.deleteReview = factory.deleteOne(Review);
