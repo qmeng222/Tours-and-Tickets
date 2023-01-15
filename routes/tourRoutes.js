@@ -2,10 +2,15 @@
 const express = require('express');
 const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authController');
-const reviewController = require('../controllers/reviewControlller');
+// const reviewController = require('../controllers/reviewControlller');
+const reviewRouter = require('./reviewRoutes');
 
 // creates new router object:
 const router = express.Router();
+
+// nested routes: eg, POST /tours/123456abcdef/reviews
+// NOTE: tourRouter was already mounted on tours
+router.use('/:tourId/reviews', reviewRouter);
 
 // // if there's no id in the route, this middleware will be ignored and move on to the next middleware:
 // router.param('id', tourController.checkID);
@@ -32,16 +37,6 @@ router
     authController.protect,
     authController.restrictTo('lead-guide', 'admin'),
     tourController.deleteTour
-  );
-
-// nested routes: eg, POST /tours/123456abcdef/reviews
-// NOTE: tourRouter was already mounted on tours
-router
-  .route('/:tourId/reviews')
-  .post(
-    authController.protect,
-    authController.restrictTo('user'),
-    reviewController.createReview
   );
 
 // assign the router obj to exports:
