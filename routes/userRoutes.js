@@ -21,17 +21,14 @@ router.patch(
   authController.updatePassword
 );
 
-router.delete(
-  '/deleteMyAccount',
+router.get(
+  '/me',
   authController.protect,
-  userController.deleteMyAccount
+  userController.getMe, // get user id
+  userController.getUser
 );
-
-router.patch(
-  '/updateMyData',
-  authController.protect,
-  userController.updateMyData
-);
+router.patch('/updateMe', authController.protect, userController.updateMe);
+router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
 router
   .route('/')

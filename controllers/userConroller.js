@@ -25,8 +25,13 @@ exports.createUser = (req, res, next) => {
   });
 };
 
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 // for logged-in user only:
-exports.updateMyData = catchAsync(async (req, res, next) => {
+exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) raise error if user POSTs password:
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -55,7 +60,7 @@ exports.updateMyData = catchAsync(async (req, res, next) => {
 });
 
 // for logged-in user only:
-exports.deleteMyAccount = catchAsync(async (req, res, next) => {
+exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
   // 204: no content
