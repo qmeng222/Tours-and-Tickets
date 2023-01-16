@@ -30,6 +30,7 @@ exports.getAll = (Model) =>
       .paginate();
 
     const docs = await features.query;
+    // const docs = await features.query.explain(); // explain to get executionStats including nReturned (numReturned) and totalDocsExamined
 
     // send response:
     res.status(200).json({

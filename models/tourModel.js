@@ -126,6 +126,17 @@ const tourSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+// // create a index with the price field:
+// tourSchema.index({ price: 1 }); // 1: asc, -1: desc
+
+// create a compound index with price field and ratingsAverage field:
+// Note: with a compound index, we do not have to create one individual for each of the fields anymore
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+
+// create a index with the slug field:
+tourSchema.index({ slug: 1 });
+
 // duration days --> weeks:
 tourSchema.virtual('durationWeekds').get(function () {
   return this.duration / 7;
