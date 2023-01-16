@@ -56,6 +56,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+/*
+TEMPORARILY turn off password encryption when import development user data
+because passwords in the development user data have already been encrypted
+*/
 // pre document middleware: function execute before Mongoose .save() / .create() method
 userSchema.pre('save', async function (next) {
   // this referes to the current document:
