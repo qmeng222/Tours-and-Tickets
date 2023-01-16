@@ -12,35 +12,18 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 // handlers / controllers:
+exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
+exports.updateUser = factory.updateOne(User);
+exports.deleteUser = factory.deleteOne(User);
+
 exports.createUser = (req, res, next) => {
   // 500 means internal server error:
   res.status(500).json({
     status: 'error',
-    message: 'this route is not yet defined',
+    message: 'This route is not defined. Please use /signup instead.',
   });
 };
-
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-
-  // send response:
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: { users },
-  });
-});
-
-exports.getUser = (req, res) => {
-  // 500 means internal server error:
-  res.status(500).json({
-    status: 'error',
-    message: 'this route is not yet defined',
-  });
-};
-
-exports.updateUser = factory.updateOne(User);
-exports.deleteUser = factory.deleteOne(User);
 
 // for logged-in user only:
 exports.updateMyData = catchAsync(async (req, res, next) => {

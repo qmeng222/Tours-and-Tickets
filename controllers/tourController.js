@@ -1,7 +1,5 @@
 const Tour = require('../models/tourModel');
-const APIfeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 
 // const tours = JSON.parse(
@@ -43,45 +41,10 @@ exports.aliasTopTours = (req, res, next) => {
 
 // handlers/controllers:
 exports.createTour = factory.createOne(Tour);
+exports.getAllTours = factory.getAll(Tour);
+exports.getTour = factory.getOne(Tour, { path: 'reviews' }); // path posts to the field to populate
 exports.updateTour = factory.updateOne(Tour);
 exports.deleteTour = factory.deleteOne(Tour);
-
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  // execute query & chain the methods:
-  const features = new APIfeatures(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-
-  const tours = await features.query;
-
-  // send response:
-  res.status(200).json({
-    status: 'success',
-    // requestedAt: req.requestTime,
-    results: tours.length,
-    data: { tours },
-  });
-});
-
-exports.getTour = catchAsync(async (req, res, next) => {
-  // console.log(req.params);
-  // // 👆get {id: '5', x: '23', y: undefined} for '/api/v1/tours/:id/:x:y?'
-  // const id = req.params.id * 1; // str --> num
-  // const tour = tours.find((el) => el.id === id);
-  // const tour = await Tour.findOne({_id: req.params.id});
-  const tour = await Tour.findById(req.params.id).populate('reviews');
-
-  if (!tour) {
-    return next(new AppError('No tour was found with that ID.', 404)); // return immediately without moving on to the next line
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: { tour }, // { tour: tour }
-  });
-});
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([

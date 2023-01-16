@@ -1,5 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const APIfeatures = require('../utils/apiFeatures');
 
 // generalization: the Model below could be Tour, User, Review, ...
 exports.createOne = (Model) =>
@@ -12,6 +13,48 @@ exports.createOne = (Model) =>
       data: {
         data: doc,
       },
+    });
+  });
+
+exports.getAll = (Model) =>
+  catchAsync(async (req, res, next) => {
+    // for nested GET reviews of a tour:
+    let filter = {}; // {} for finding all reviews (wo/ a filter)
+    if (req.params.tourId) filter = { tour: req.params.tourId };
+
+    // execute query & chain the methods:
+    const features = new APIfeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const docs = await features.query;
+
+    // send response:
+    res.status(200).json({
+      status: 'success',
+      // requestedAt: req.requestTime,
+      results: docs.length,
+      data: { data: docs },
+    });
+  });
+
+// pop means populate:
+exports.getOne = (Model, popOptions) =>
+  catchAsync(async (req, res, next) => {
+    // eg: const tour = await Tour.findById(req.params.id).populate('reviews');
+    let query = Model.findById(req.params.id);
+    if (popOptions) query = query.populate(popOptions);
+    const doc = await query;
+
+    if (!doc) {
+      return next(new AppError('No document was found with that ID.', 404)); // return immediately without moving on to the next line
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: { data: doc }, // { tour: tour }
     });
   });
 
