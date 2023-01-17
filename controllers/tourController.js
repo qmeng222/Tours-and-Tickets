@@ -107,3 +107,35 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     data: { plan },
   });
 });
+
+// /tours-within/:distance/center/:latlng/unit/:unit
+// /tours-within/233/center/34.111745,-118.113491/unit/mi
+exports.getToursWithin = catchAsync(async (req, res, next) => {
+  const { distance, latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+
+  // MongoDB expects the radius of our sphere to be in radians (arcLength = r * radian)
+  const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1; // Earth radius: 6378.1 km (or 3963.2 mi)
+
+  if (!lat || !lng) {
+    next(
+      new AppError(
+        'Please provide latitutr and longitude in the format lat,lng.',
+        400
+      )
+    );
+  }
+  // console.log(distance, lat, lng, unit); // eg: 233 34.111745 -118.113491 mi
+
+  const tours = await Tour.find({
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  });
+
+  res.status(200).json({
+    status: 'success',
+    results: tours.length,
+    data: {
+      data: tours,
+    },
+  });
+});

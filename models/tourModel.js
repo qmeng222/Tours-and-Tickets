@@ -139,6 +139,9 @@ tourSchema.index({ price: 1, ratingsAverage: -1 });
 // create a index with the slug field:
 tourSchema.index({ slug: 1 });
 
+// start location is indexed to a 2D sphere:
+tourSchema.index({ startLocation: '2dsphere ' });
+
 // duration days --> weeks:
 tourSchema.virtual('durationWeekds').get(function () {
   return this.duration / 7;
