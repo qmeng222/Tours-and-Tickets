@@ -53,6 +53,9 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
+// each user can only submit one review for each tour:
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
+
 // static method only works on models:
 reviewSchema.statics.calcAverageRatings = async function (tourId) {
   // this points to the model:
