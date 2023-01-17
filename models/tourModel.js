@@ -202,13 +202,13 @@ tourSchema.post(/^find/, function (docs, next) {
   next();
 });
 
-// pre aggregate middleware: exclude the secret tours in the aggregation
-tourSchema.pre('aggregate', function (next) {
-  // console.log(this.pipeline()); // in aggregate middleware, "this" object points to the current aggregation object
-  // // [{'$match': {...}}, {'$group': {...}}, {'$sort': {...}}]
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  next();
-});
+// // pre aggregate middleware: exclude the secret tours in the aggregation
+// tourSchema.pre('aggregate', function (next) {
+//   // console.log(this.pipeline()); // in aggregate middleware, "this" object points to the current aggregation object
+//   // // [{'$match': {...}}, {'$group': {...}}, {'$sort': {...}}]
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+//   next();
+// });
 
 const Tour = mongoose.model('Tour', tourSchema);
 

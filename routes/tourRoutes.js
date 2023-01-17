@@ -28,10 +28,14 @@ router.route('/monthly-plan/:year').get(
   tourController.getMonthlyPlan
 );
 
+// geospatial queries: find tours within radius:
 // eg: /tours-within/233/center/-40,45/unit/mi
 router
   .route('/tours-within/:distance/center/:latlng/unit/:unit')
   .get(tourController.getToursWithin);
+
+// geospatial aggreagation: calculate the distance from a certain point to all the tours：
+router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
 
 router
   .route('/')
