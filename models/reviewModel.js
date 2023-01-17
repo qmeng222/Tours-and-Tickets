@@ -53,6 +53,7 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
+// static method only works on models:
 reviewSchema.statics.calcAverageRatings = async function (tourId) {
   // this points to the model:
   const stats = await this.aggregate([
@@ -71,17 +72,40 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   // console.log(tourId);
   // console.log(stats); // [ { _id: 63c5ce3276faca1e0a90051c, nRating: 4, avgRating: 4.725 } ]
 
-  // update the tour document with the new reviews created:
-  await Tour.findByIdAndUpdate(tourId, {
-    ratingsQuantity: stats[0].nRating, // refer to console.log(stats)
-    ratingsAverage: stats[0].avgRating,
-  });
+  // update the tour document with the new review created:
+  // if stats !== []
+  if (stats.length > 0) {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: stats[0].nRating, // refer to console.log(stats)
+      ratingsAverage: stats[0].avgRating,
+    });
+  } else {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 4.5,
+    });
+  }
 };
 
 reviewSchema.post('save', function () {
   // this points to current document (review)
   // constructor is to the model who created this document (the Review model)
   this.constructor.calcAverageRatings(this.tour); // the tourId this review is for
+});
+
+// update the tour document with review deleted:
+// findByIdAndUpdate & findByIdAndDelete --> ^findOneAnd
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  // retrieve the current document first:
+  // this points to current query:
+  this.r = await this.findOne(); // r for review, create a property for this
+  // console.log(this.r);
+  next();
+});
+
+reviewSchema.post(/^findOneAnd/, async function () {
+  // await this.findOne(); does NOT work here, query has already executed
+  await this.r.constructor.calcAverageRatings(this.r.tour); // refer to console.log(this.r) --> get tourId for this review
 });
 
 // create model out of schema:
