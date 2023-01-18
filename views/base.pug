@@ -8,15 +8,16 @@ html
     //- refer to app.js > app.use(express.static(path.join(__dirname, 'public')));
     link(rel='stylesheet' href='/css/style.css')
     link(rel='shortcut icon' type='image/png' href='/img/favicon.png')
-    title Tours & Tickets | Exciting tours for adventurous people
+    //- refer to app.js > app.get('/overview', (req, res) => {title: 'All tours',});});
+    title Tours & Tickets | #{title}
 
   body
     // HEADER
     include _header
 
     // CONTENT
-    main.main
-      h1= tour
+    block content
+      h1 This is a placeholder heading.
 
     // FOOTER
     include _footer
