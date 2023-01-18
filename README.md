@@ -79,6 +79,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   - install xss-clean module to sanitize user input coming from POST body, GET queries, and url params: npm i xss-clean
   - install Express HPP middleware to protect against HTTP Parameter Pollution (HPP) attacks: npm i hpp
   - run debugger when needed (refer to package.json): npm run debug
+  - install Pug module: npm i pug
 
 <br>
 

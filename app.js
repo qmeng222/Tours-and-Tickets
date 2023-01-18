@@ -1,4 +1,5 @@
 // import modules (require):
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -15,7 +16,13 @@ const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
 
-// global middlewares:
+app.set('view engine', 'pug'); // tell Express what template engine I'm going to use
+app.set('views', path.join(__dirname, 'views'));
+
+// GLOBAL MIDDLEWARES:
+// app.use(express.static(`${__dirname}/public`)); // serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // set security HTTP headers:
 app.use(helmet());
 
@@ -57,9 +64,6 @@ app.use(
   })
 );
 
-// serving static files:
-app.use(express.static(`${__dirname}/public`)); // serving static files
-
 // test middleware:
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -67,7 +71,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// mount routers on routes: middleware is added to the middleware stack in the order that it's defined
+// ROUTES: mount routers on routes:
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
