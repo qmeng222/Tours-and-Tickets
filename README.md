@@ -80,6 +80,12 @@ A real-world RESTful API and web app with authentication, security, and payments
   - install Express HPP middleware to protect against HTTP Parameter Pollution (HPP) attacks: npm i hpp
   - run debugger when needed (refer to package.json): npm run debug
   - install Pug module: npm i pug
+  - downgrade helmet to 3.23.3:
+    ```
+    npm uninstall helmet
+    npm i helmet@3.23.3
+    ```
+  - install mapbox-gl into the project: npm i mapbox-gl
 
 <br>
 
@@ -172,3 +178,4 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 1. Mongoose queries: https://mongoosejs.com/docs/queries.html
 2. validator.js - a library of STRING validators and sanitizers: https://github.com/validatorjs/validator.js/
 3. Mailtrap (email delivery platform): https://mailtrap.io/
+4. Mapbox (precise location data and powerful developer tools): https://www.mapbox.com/
