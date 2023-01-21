@@ -74,7 +74,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   - install JSON web token package: npm i jsonwebtoken
   - install Nodemailer: npm i nodemailer
   - install the rate-limiting middleware for Express to prevent brute force attacks from the same IP: npm i express-rate-limit
-  - install Helmet to secure the Express app by setting various HTTP headers: npm i helmet
+  - install Helmet to secure the Express app by setting various HTTP headers: npm i helmet --legacy-peer-deps
   - install Express Mongoose Sanitize module: npm i express-mongo-sanitize
   - install xss-clean module to sanitize user input coming from POST body, GET queries, and url params: npm i xss-clean
   - install Express HPP middleware to protect against HTTP Parameter Pollution (HPP) attacks: npm i hpp
@@ -86,6 +86,7 @@ A real-world RESTful API and web app with authentication, security, and payments
     npm i helmet@3.23.3
     ```
   - install mapbox-gl into the project: npm i mapbox-gl
+  - install the cookie parser: npm i cookie-parser
 
 <br>
 
