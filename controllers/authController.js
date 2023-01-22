@@ -69,6 +69,14 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+exports.logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000), // 10s
+    httpOnly: true,
+  });
+  res.status(200).json({ status: 'success' });
+};
+
 exports.protect = catchAsync(async (req, res, next) => {
   // 1. get the token and check if it's there:
   let token; // in ES6 variable declaratory, const and let are block scoped
