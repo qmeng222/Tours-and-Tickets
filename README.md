@@ -87,6 +87,10 @@ A real-world RESTful API and web app with authentication, security, and payments
     ```
   - install mapbox-gl into the project: npm i mapbox-gl
   - install the cookie parser: npm i cookie-parser
+  - install Parcel.js: sudo npm i parcel-bundler@1 --save-dev
+  - npm run watch:js
+  - install Axios (a promise-based HTTP client for node.js and the browser): npm i axios
+  - npm i @babel/polyfill
 
 <br>
 
@@ -179,4 +183,5 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 1. Mongoose queries: https://mongoosejs.com/docs/queries.html
 2. validator.js - a library of STRING validators and sanitizers: https://github.com/validatorjs/validator.js/
 3. Mailtrap (email delivery platform): https://mailtrap.io/
-4. Mapbox (precise location data and powerful developer tools): https://www.mapbox.com/
+4. Mapbox (precise location data and powerful developer tools): https://www.mapbox.com
+5. Parcel (web application bundler): https://parceljs.org/
