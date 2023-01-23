@@ -91,6 +91,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   - npm run watch:js
   - install Axios (a promise-based HTTP client for node.js and the browser): npm i axios
   - npm i @babel/polyfill
+  - NPM install Multer: npm i multer
 
 <br>
 
@@ -185,3 +186,4 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 3. Mailtrap (email delivery platform): https://mailtrap.io/
 4. Mapbox (precise location data and powerful developer tools): https://www.mapbox.com
 5. Parcel (web application bundler): https://parceljs.org/
+6. Multer (a node.js middleware for handling multipart/form-data, primarily used for uploading files): https://www.npmjs.com/package/multer
