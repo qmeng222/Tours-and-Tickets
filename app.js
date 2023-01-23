@@ -44,6 +44,7 @@ app.use('/api', limiter); // apply to all routes that start with /api
 
 // body parser, reading data from body into req.body:
 app.use(express.json({ limit: '10kb' })); // data from the body is added to the request object
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser()); // parse data from cookies
 
 // data sanitization against NoSQL query injection:
