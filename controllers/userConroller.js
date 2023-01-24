@@ -63,8 +63,8 @@ exports.getMe = (req, res, next) => {
 
 // for logged-in user only:
 exports.updateMe = catchAsync(async (req, res, next) => {
-  console.log(req.file);
-  console.log(req.body);
+  // console.log(req.file);
+  // console.log(req.body);
 
   // 1) raise error if user POSTs password:
   if (req.body.password || req.body.passwordConfirm) {
@@ -78,6 +78,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
   // filter out unwanted fields that are not allowed to be updated:
   const filteredBody = filterObj(req.body, 'name', 'email');
+  if (req.file) filteredBody.photo = req.file.filename; // filename: 'user-5c8a1f292f8fb814b56fa184-1674521842546.jpeg'
 
   // 3) update user document (name and/or email), update role to "admin" is not allowed:
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
