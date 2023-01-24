@@ -92,6 +92,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   - install Axios (a promise-based HTTP client for node.js and the browser): npm i axios
   - npm i @babel/polyfill
   - NPM install Multer: npm i multer
+  - install Sharp module to resize images: npm i sharp
 
 <br>
 
