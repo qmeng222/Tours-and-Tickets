@@ -189,3 +189,5 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 4. Mapbox (precise location data and powerful developer tools): https://www.mapbox.com
 5. Parcel (web application bundler): https://parceljs.org/
 6. Multer (a node.js middleware for handling multipart/form-data, primarily used for uploading files): https://www.npmjs.com/package/multer
+7. Mailsac (disposable testing email inbox service): https://mailsac.com/
+8. SendGrid (cloud-based email delivery platform): https://sendgrid.com/
