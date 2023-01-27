@@ -16,7 +16,7 @@ module.exports = class Email {
       return 1;
     }
 
-    return nodemailer.newTransport({
+    return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
       // logger: true,
@@ -39,8 +39,8 @@ module.exports = class Email {
     const mailOptions = {
       from: this.from,
       to: this.to,
-      subject,
-      html,
+      subject, // subject: subject,
+      html, // html: html,
       text: htmlToText.fromString(html),
     };
 
