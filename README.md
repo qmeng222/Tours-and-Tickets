@@ -94,6 +94,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   - NPM install Multer: npm i multer
   - install Sharp module to resize images: npm i sharp
   - install the converter that parses HTML and returns beautiful text: npm i html-to-text --legacy-peer-deps
+  - install stripe: npm i stripe
 
 <br>
 
