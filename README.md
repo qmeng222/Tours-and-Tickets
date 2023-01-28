@@ -181,6 +181,12 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 
 <br>
 
+### Payment workflow:
+
+![payment workflow](/images/payment-workflow.png)
+
+<br>
+
 ### References:
 
 1. Mongoose queries: https://mongoosejs.com/docs/queries.html
@@ -191,3 +197,4 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 6. Multer (a node.js middleware for handling multipart/form-data, primarily used for uploading files): https://www.npmjs.com/package/multer
 7. Mailsac (disposable testing email inbox service): https://mailsac.com/
 8. SendGrid (cloud-based email delivery platform): https://sendgrid.com/
+9. Stripe (payment processing platform): https://stripe.com/
