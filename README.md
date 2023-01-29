@@ -11,6 +11,8 @@ A real-world RESTful API and web app with authentication, security, and payments
 - JavaScript
 - Node.js (as the dynamic web server)
 - Express.js
+- MongoDB
+- Mongoose
 
 <br>
 
