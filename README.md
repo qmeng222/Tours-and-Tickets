@@ -100,6 +100,7 @@ A real-world RESTful API and web app with authentication, security, and payments
   - install stripe: npm i stripe
   - install the Node.js compression middleware: npm i compression
   - npm run build:js
+  - install Heroku and run: brew tap heroku/brew && brew install heroku
 
 <br>
 
