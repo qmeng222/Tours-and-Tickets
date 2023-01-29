@@ -11,8 +11,9 @@ A real-world RESTful API and web app with authentication, security, and payments
 - Express.js
 - MongoDB
 - Mongoose
-- html
-- css
+- HTML
+- CSS
+- Heroku
 
 <br>
 
@@ -203,3 +204,4 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 7. Mailsac (disposable testing email inbox service): https://mailsac.com/
 8. SendGrid (cloud-based email delivery platform): https://sendgrid.com/
 9. Stripe (payment processing platform): https://stripe.com/
+10. Heroku (cloud application platform): https://www.heroku.com
