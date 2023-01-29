@@ -195,12 +195,12 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-// post query middleware:
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  // console.log(docs); // [...tours]
-  next();
-});
+// // post query middleware:
+// tourSchema.post(/^find/, function (docs, next) {
+//   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+//   // console.log(docs); // [...tours]
+//   next();
+// });
 
 // // pre aggregate middleware: exclude the secret tours in the aggregation
 // tourSchema.pre('aggregate', function (next) {

@@ -6,13 +6,13 @@ A real-world RESTful API and web app with authentication, security, and payments
 
 ### Tech stack:
 
-- html
-- css
 - JavaScript
 - Node.js (as the dynamic web server)
 - Express.js
 - MongoDB
 - Mongoose
+- html
+- css
 
 <br>
 
@@ -97,6 +97,8 @@ A real-world RESTful API and web app with authentication, security, and payments
   - install Sharp module to resize images: npm i sharp
   - install the converter that parses HTML and returns beautiful text: npm i html-to-text --legacy-peer-deps
   - install stripe: npm i stripe
+  - install the Node.js compression middleware: npm i compression
+  - npm run build:js
 
 <br>
 

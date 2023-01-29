@@ -124,8 +124,8 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  // original rest token vs. encrypted reset token:
-  console.log({ resetToken }, this.passwordResetToken);
+  // // original rest token vs. encrypted reset token:
+  // console.log({ resetToken }, this.passwordResetToken);
 
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 min --> ms
   return resetToken;
