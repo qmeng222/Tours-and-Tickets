@@ -9,8 +9,8 @@ A real-world RESTful API and web app with authentication, security, and payments
 - JavaScript
 - Node.js (as the dynamic web server)
 - Express.js
-- MongoDB
 - Mongoose
+- MongoDB
 - HTML
 - CSS
 - Heroku
@@ -191,6 +191,18 @@ db.COLLECTION_NAME.drop()  # drop a collection from the database
 ### Payment workflow:
 
 ![payment workflow](/images/payment-workflow.png)
+
+<br>
+
+### Usage:
+
+- use a real credit card in production
+- otherwise, use Stripe's test credit card in development mode:
+  - email: preformatted (logged-in user email)
+  - card number: 4242 4242 4242 4242
+  - name: logged-in user name
+  - date: any date in the future
+  - cvc: any 3 numbers
 
 <br>
 
