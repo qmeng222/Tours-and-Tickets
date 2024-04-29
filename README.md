@@ -11,9 +11,6 @@ A real-world RESTful API and web app with authentication, security, and payments
 - Express.js
 - Mongoose
 - MongoDB
-- HTML
-- CSS
-- Heroku
 
 <br>
 
